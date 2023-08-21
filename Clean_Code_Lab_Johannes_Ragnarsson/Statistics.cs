@@ -1,98 +1,130 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
     public class Statistics
     {
-        private static List<PlayerData> results = new List<PlayerData>();
-
-        public static void SaveResult(string playerName, int guesses)
+        private static List<PlayerData> _results = new List<PlayerData>();
+        
+        public static void SaveResult(PlayerData player, string filename)
         {
-            PlayerData playerData = results.Find(p => p.Name == playerName);
+            _results = ReadFromFile(filename);
+            if(_results.Count > 0 ) 
+            {
+                var foundPlayer = _results.Find(p => p.Name == player.Name);
 
-            if (playerData == null)
-            {
-                playerData = new PlayerData(playerName, guesses);
-                results.Add(playerData);
-            }
-            else
-            {
-                playerData.Update(guesses);
-            }
-        }
-
-        public static void ShowTopList()
-        {
-            StreamReader input = new StreamReader("result.txt");
-            List<PlayerData> results = new List<PlayerData>();
-            string line;
-            while ((line = input.ReadLine()) != null)
-            {
-                string[] nameAndScore = line.Split(new string[] { "#&#" }, StringSplitOptions.None);
-                string name = nameAndScore[0];
-                int guesses = Convert.ToInt32(nameAndScore[1]);
-                PlayerData pd = new PlayerData(name, guesses);
-                int pos = results.IndexOf(pd);
-                if (pos < 0)
+                if (foundPlayer == null)
                 {
-                    results.Add(pd);
+                    _results.Add(new PlayerData(player.Name, player.TotalGuesses));
                 }
                 else
                 {
-                    results[pos].Update(guesses);
+                    int indexOfUser = _results.FindIndex(user => user.Name == player.Name);
+                    foundPlayer.UpdateUserData(player.TotalGuesses);
                 }
-
-
+                string response = WriteToFile(filename, _results);
+                Console.WriteLine(response);
             }
-            results.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
+        }
+
+        public static void ShowTopList(string filename)
+        {
+            var results = ReadFromFile(filename);
+            results.Sort((p1, p2) => p1.AverageGuesses().CompareTo(p2.AverageGuesses()));
             Console.WriteLine("Player   games average");
             foreach (PlayerData p in results)
             {
-                Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NGames, p.Average()));
+                Console.WriteLine(string.Format(
+                    "{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NumberOfGames, p.AverageGuesses()));
             }
-            input.Close();
+        }
+
+        private static List<PlayerData> ReadFromFile(string filename) 
+        {
+            try
+            {
+                var input = new StreamReader(filename);
+                var results = new List<PlayerData>();
+                string splitter = "#&#";
+                string line;
+                while ((line = input.ReadLine()) != null)
+                {
+                    string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
+                    string name = nameAndScore[0];
+                    int numberOfGames = Convert.ToInt32(nameAndScore[1]);
+                    int totalGuesses = Convert.ToInt32(nameAndScore[2]);
+                    PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
+                    results.Add(playerData);
+                }                
+                input.Close();
+                return results;
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Couldn't read from file due to error:" + error);
+                return new List<PlayerData>();
+            }
+        }
+
+        private static string WriteToFile(string filename, List<PlayerData> playerData)
+        {
+            try
+            {
+                using(var writer = new StreamWriter(filename, append:false)) 
+                {
+                    foreach(var player in playerData)
+                    {
+                        writer.WriteLine(
+                            $"{player.Name}#&#{player.NumberOfGames}#&#{player.TotalGuesses}");
+                    }
+                }
+                return "Players updated!";
+            }
+            catch (Exception error)
+            {
+                Console.WriteLine("Couldn't write to file due to error:\n" + error);
+                return "Error creating new player";
+            }
         }
     }
 
-    class PlayerData
+    public class PlayerData
     {
         public string Name { get; private set; }
-        public int NGames { get; private set; }
-        int totalGuess;
+        public int NumberOfGames { get; private set; }
+        public int TotalGuesses { get; private set; }
 
 
         public PlayerData(string name, int guesses)
         {
             this.Name = name;
-            NGames = 1;
-            totalGuess = guesses;
+            NumberOfGames = 1;
+            TotalGuesses = guesses;
         }
 
-        public void Update(int guesses)
+        public PlayerData(string name, int numberOfGames, int totalGuesses)
         {
-            totalGuess += guesses;
-            NGames++;
-        }
-
-        public double Average()
-        {
-            return (double)totalGuess / NGames;
+            this.Name = name;
+            NumberOfGames = numberOfGames;
+            TotalGuesses = totalGuesses;
         }
 
 
-        public override bool Equals(Object p)
+        public void UpdateUserData(int guesses)
         {
-            return Name.Equals(((PlayerData)p).Name);
+            TotalGuesses += guesses;
+            NumberOfGames++;
         }
 
-
-        public override int GetHashCode()
+        public double AverageGuesses()
         {
-            return Name.GetHashCode();
+            return (double)TotalGuesses / NumberOfGames;
         }
     }
 }

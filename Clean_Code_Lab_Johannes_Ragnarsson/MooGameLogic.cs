@@ -11,6 +11,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
         public static void PlayGame(string playerName)
         {
             bool playOn = true;
+            
 
             while (playOn)
             {
@@ -31,12 +32,22 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                     bbcc = CheckBullsAndCows(goal, guess);
                     Console.WriteLine(bbcc);
                 }
+                
+                var filename = GetGameName(nameof(MooGameLogic));
 
-                Statistics.SaveResult(playerName, nGuess);
-                Statistics.ShowTopList();
+                Statistics.SaveResult(new PlayerData(playerName, nGuess), filename);
+                Statistics.ShowTopList(filename);
 
                 playOn = UserInterface.AskToContinue();
             }
+        }
+
+        private static string GetGameName(string className)
+        {
+            className = nameof(MooGameLogic);
+            var indexOfLogic = className.IndexOf('L');
+            var filename = className.Substring(0, indexOfLogic) + ".txt";
+            return filename;
         }
 
         private static string GenerateGoal()
@@ -63,26 +74,33 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
 
         private static string CheckBullsAndCows(string goal, string guess)
         {
-            int cows = 0, bulls = 0;
-            guess += "    ";     // if player entered less than 4 chars
-            for (int i = 0; i < 4; i++)
+            if(guess.Length < 5)
             {
-                for (int j = 0; j < 4; j++)
+                int cows = 0, bulls = 0;
+                guess += "    ";     // if player entered less than 4 chars
+                for (int i = 0; i < 4; i++)
                 {
-                    if (goal[i] == guess[j])
+                    for (int j = 0; j < 4; j++)
                     {
-                        if (i == j)
+                        if (goal[i] == guess[j])
                         {
-                            bulls++;
-                        }
-                        else
-                        {
-                            cows++;
+                            if (i == j)
+                            {
+                                bulls++;
+                            }
+                            else
+                            {
+                                cows++;
+                            }
                         }
                     }
                 }
+                return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
             }
-            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+            else
+            {
+                return $"You enter {guess.Length} characters but only 4 is allowed, try again";
+            }
         }
     }
 }
