@@ -51,17 +51,23 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             {
                 var input = new StreamReader(filename);
                 var results = new List<PlayerData>();
-                string splitter = "#&#";
                 string line;
+
                 while ((line = input.ReadLine()) != null)
                 {
-                    string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
-                    string name = nameAndScore[0];
-                    int numberOfGames = Convert.ToInt32(nameAndScore[1]);
-                    int totalGuesses = Convert.ToInt32(nameAndScore[2]);
+                    string name;
+                    int numberOfGames, totalGuesses;
+
+                    var splittedLine = SplitString(line);
+                    
+                    name = splittedLine[0];
+                    numberOfGames = Convert.ToInt32(splittedLine[1]);
+                    totalGuesses = Convert.ToInt32(splittedLine[2]);
+
                     PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
+
                     results.Add(playerData);
-                }                
+                }
                 input.Close();
                 return results;
             }
@@ -70,6 +76,14 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                 Console.WriteLine("Couldn't read from file due to error:" + error);
                 return new List<PlayerData>();
             }
+        }
+
+        public static string[] SplitString(string line)
+        {
+            string splitter = "#&#";
+            string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
+            return nameAndScore;
+            
         }
 
         private static string WriteToFile(string filename, List<PlayerData> playerData)
