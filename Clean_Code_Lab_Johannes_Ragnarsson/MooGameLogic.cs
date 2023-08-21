@@ -32,7 +32,8 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                     Console.WriteLine(bbcc);
                 }
 
-                //save playerdata somehow
+                Statistics.SaveResult(playerName, nGuess);
+                Statistics.ShowTopList();
 
                 playOn = UserInterface.AskToContinue();
             }
