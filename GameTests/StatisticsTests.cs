@@ -1,7 +1,3 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Clean_Code_Lab_Johannes_Ragnarsson;
-using System.Diagnostics.Metrics;
-
 namespace Clean_Code_Lab_Johannes_Ragnarsson.Tests
 {
     [TestClass()]
@@ -10,7 +6,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson.Tests
         //Classname_MethodName_ExpectedResult
 
         [TestMethod()]
-        public void Statistics_SplitString_ReturnsListOfPlayerData()
+        public void Statistics_SplitStringAddData_ReturnsListOfPlayerData()
         {
             //Arrange - get variables, get classes and methods
             string splitter = "#&#";
@@ -138,7 +134,6 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson.Tests
         {
             //Arrange
             string filename = "TestWriting.txt";
-            var fromFile = new List<string>();
             var correctListItems = new List<string>
             {
                 "Johannes#&#1#&#6",
@@ -150,7 +145,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson.Tests
 
 
             //Act
-            fromFile = Statistics.FileReader(filename);
+            var fromFile = Statistics.FileReader(filename);
 
             //Assert
             for (int i = 0; i < correctListItems.Count; i++)
@@ -158,8 +153,5 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson.Tests
                 Assert.AreEqual(fromFile[i], correctListItems[i]);
             }
         }
-
-        [TestMethod]
-        public void Statistics_
     }
 }
