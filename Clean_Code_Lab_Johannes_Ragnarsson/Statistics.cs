@@ -45,32 +45,16 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        private static List<PlayerData> ReadFromFile(string filename) 
+        public static List<PlayerData> ReadFromFile(string filename) 
         {
             try
             {
-                var input = new StreamReader(filename);
-                var results = new List<PlayerData>();
-                string line;
+                List<string> allLines = FileReader(filename);
 
-                while ((line = input.ReadLine()) != null)
-                {
-                    string name;
-                    int numberOfGames, totalGuesses;
-                    string splitter = "#&#";
+                string splitter = "#&#";
+                var playerDatas = SplitStringAddData(allLines, splitter);
 
-                    var splittedLine = SplitString(line, splitter);
-                    
-                    name = splittedLine[0];
-                    numberOfGames = Convert.ToInt32(splittedLine[1]);
-                    totalGuesses = Convert.ToInt32(splittedLine[2]);
-
-                    PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
-
-                    results.Add(playerData);
-                }
-                input.Close();
-                return results;
+                return playerDatas;
             }
             catch (Exception error)
             {
@@ -79,14 +63,43 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        public static string[] SplitString(string line, string splitter)
+        public static List<string> FileReader(string filename)
         {
-            string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
-            return nameAndScore;
-            
+            var input = new StreamReader(filename);
+            var results = new List<string>();
+
+            string line;
+
+            while ((line = input.ReadLine()) != null)
+            {
+                results.Add(line);
+            }
+            input.Close();
+            return results;
         }
 
-        private static string WriteToFile(string filename, List<PlayerData> playerData)
+        public static List<PlayerData> SplitStringAddData(List<string> lines, string splitter)
+        {
+            string name;
+            int numberOfGames, totalGuesses;
+            var results = new List<PlayerData>();
+
+            foreach (string line in lines)
+            {
+                string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
+
+                name = nameAndScore[0];
+                numberOfGames = Convert.ToInt32(nameAndScore[1]);
+                totalGuesses = Convert.ToInt32(nameAndScore[2]);
+
+                PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
+
+                results.Add(playerData);
+            }
+            return results;
+        }
+
+        public static string WriteToFile(string filename, List<PlayerData> playerData)
         {
             try
             {
@@ -110,9 +123,9 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
 
     public class PlayerData
     {
-        public string Name { get; private set; }
-        public int NumberOfGames { get; private set; }
-        public int TotalGuesses { get; private set; }
+        public string Name { get;  set; }
+        public int NumberOfGames { get;  set; }
+        public int TotalGuesses { get;  set; }
 
 
         public PlayerData(string name, int guesses)
@@ -128,6 +141,8 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             NumberOfGames = numberOfGames;
             TotalGuesses = totalGuesses;
         }
+
+        public PlayerData() { }
 
 
         public void UpdateUserData(int guesses)
