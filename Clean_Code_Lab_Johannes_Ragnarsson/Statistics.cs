@@ -57,8 +57,9 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                 {
                     string name;
                     int numberOfGames, totalGuesses;
+                    string splitter = "#&#";
 
-                    var splittedLine = SplitString(line);
+                    var splittedLine = SplitString(line, splitter);
                     
                     name = splittedLine[0];
                     numberOfGames = Convert.ToInt32(splittedLine[1]);
@@ -78,9 +79,8 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        public static string[] SplitString(string line)
+        public static string[] SplitString(string line, string splitter)
         {
-            string splitter = "#&#";
             string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
             return nameAndScore;
             
