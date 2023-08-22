@@ -11,7 +11,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
         public static void PlayGame(string playerName)
         {
             bool playOn = true;
-            
+            var filename = GetGameName();
 
             while (playOn)
             {
@@ -32,8 +32,6 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                     bbcc = CheckBullsAndCows(goal, guess);
                     Console.WriteLine(bbcc);
                 }
-                
-                var filename = GetGameName(nameof(MooGameLogic));
 
                 Statistics.SaveResult(new PlayerData(playerName, nGuess), filename);
                 Statistics.ShowTopList(filename);
@@ -42,9 +40,9 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        private static string GetGameName(string className)
+        private static string GetGameName()
         {
-            className = nameof(MooGameLogic);
+            var className = nameof(MooGameLogic);
             var indexOfLogic = className.IndexOf('L');
             var filename = className.Substring(0, indexOfLogic) + ".txt";
             return filename;
@@ -72,7 +70,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             return goal;
         }
 
-        private static string CheckBullsAndCows(string goal, string guess)
+        public static string CheckBullsAndCows(string goal, string guess)
         {
             if(guess.Length < 5)
             {
