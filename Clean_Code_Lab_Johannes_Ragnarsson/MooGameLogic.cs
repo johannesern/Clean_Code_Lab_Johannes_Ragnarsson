@@ -32,8 +32,6 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                     bbcc = CheckBullsAndCows(goal, guess);
                     Console.WriteLine(bbcc);
                 }
-                
-                var filename = GetGameName(nameof(MooGameLogic));
 
                 Statistics.SaveResult(new PlayerData(playerName, numberOfGuesses), filename);
                 Statistics.ShowTopList(filename);
@@ -42,9 +40,9 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        private static string GetGameName(string nameOfGame)
+        private static string GetGameName()
         {
-            nameOfGame = nameof(MooGameLogic);
+            var nameOfGame = nameof(MooGameLogic);
             var indexOfLogic = nameOfGame.IndexOf('L');
             var filename = nameOfGame.Substring(0, indexOfLogic) + ".txt";
             return filename;
