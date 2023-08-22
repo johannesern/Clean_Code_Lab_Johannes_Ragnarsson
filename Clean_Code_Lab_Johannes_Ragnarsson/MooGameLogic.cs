@@ -20,14 +20,14 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                 Console.WriteLine("New game:");
                 Console.WriteLine("For practice, number is: " + goal);
 
-                int nGuess = 1;
+                int numberOfGuesses = 1;
                 string guess = UserInterface.GetGuess();
                 string bbcc = CheckBullsAndCows(goal, guess);
                 Console.WriteLine(bbcc);
 
                 while (bbcc != "BBBB,")
                 {
-                    nGuess++;
+                    numberOfGuesses++;
                     guess = UserInterface.GetGuess();
                     bbcc = CheckBullsAndCows(goal, guess);
                     Console.WriteLine(bbcc);
@@ -35,18 +35,18 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                 
                 var filename = GetGameName(nameof(MooGameLogic));
 
-                Statistics.SaveResult(new PlayerData(playerName, nGuess), filename);
+                Statistics.SaveResult(new PlayerData(playerName, numberOfGuesses), filename);
                 Statistics.ShowTopList(filename);
 
                 playOn = UserInterface.AskToContinue();
             }
         }
 
-        private static string GetGameName(string className)
+        private static string GetGameName(string nameOfGame)
         {
-            className = nameof(MooGameLogic);
-            var indexOfLogic = className.IndexOf('L');
-            var filename = className.Substring(0, indexOfLogic) + ".txt";
+            nameOfGame = nameof(MooGameLogic);
+            var indexOfLogic = nameOfGame.IndexOf('L');
+            var filename = nameOfGame.Substring(0, indexOfLogic) + ".txt";
             return filename;
         }
 
