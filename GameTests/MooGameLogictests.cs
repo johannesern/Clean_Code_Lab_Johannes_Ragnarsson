@@ -20,7 +20,7 @@ namespace GameTests
             string correctBullsAndCows = "BB,CC";
 
             //Act
-            var response = CheckBullsAndCows(goal, guess);
+            var response = MooGameLogic.CheckBullsAndCows(goal, guess);
 
             //Assert
             Assert.AreEqual(correctBullsAndCows, response);
