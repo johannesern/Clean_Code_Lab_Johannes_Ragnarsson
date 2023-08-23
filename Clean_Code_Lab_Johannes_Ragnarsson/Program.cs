@@ -7,14 +7,22 @@
 
             string playerName = UserInterface.GetPlayerName();
             int totalGuesses = 1;
-            PlayerData player = new PlayerData(playerName, totalGuesses);
+            var player = new PlayerData(playerName, totalGuesses);
 
-            IGameStrategy mooGame = new MooGameStrategy();
-            GameController gameController = new GameController(mooGame);
-
-            gameController.PlayGame(player);
-            
-        
+            string response = UserInterface.GamesMenu(player);
+            switch (response)
+            {
+                case "1":
+                    IGameStrategy mooGame = new MooGameStrategy();
+                    GameController gameController = new GameController(mooGame);
+                    gameController.PlayGame(player);
+                    break;
+                case "2":
+                    break;
+                default:
+                    
+                    break;
+            }
         }
     }    
 }
