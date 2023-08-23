@@ -23,10 +23,11 @@
 
         public static string GamesMenu(PlayerData player)
         {
-            Console.WriteLine($"Hello {player.Name} and welcome," +
-                $"\nwhat would you like to play?" +
+            Console.WriteLine($"Hello {player.Name} and Welcome," +
+                $"\nWhat would you like to play?" +
                 $"\n1. MooGame" +
-                $"\n2. MasterMind");
+                $"\n2. MasterMind" +
+                $"\n9. Exit");
             return UserInput();
         }
     }
