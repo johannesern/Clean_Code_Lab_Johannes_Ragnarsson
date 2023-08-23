@@ -26,10 +26,10 @@
         {
             var results = FileHandler.ReadPlayerDataFromFile(filename);
             results.Sort((p1, p2) => p1.AverageGuesses().CompareTo(p2.AverageGuesses()));
-            Console.WriteLine("Player   games average");
+            UI.Output("Player   games average");
             foreach (PlayerData player in results)
             {
-                Console.WriteLine(string.Format(
+                UI.Output(string.Format(
                     "{0,-9}{1,5:D}{2,9:F2}", player.Name, player.NumberOfGames, player.AverageGuesses()));
             }
         }

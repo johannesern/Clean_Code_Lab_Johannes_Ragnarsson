@@ -19,27 +19,27 @@
 
                 _game.Initialize();
 
-                string guess = UserInterface.UserInput();
+                string guess = UI.UserInput();
                 string bbcc = _game.CheckGuess(guess);
-                Console.WriteLine(bbcc);
+                UI.Output(bbcc);
 
                 while (bbcc != "BBBB,")
                 {
                     player.TotalGuesses++;
-                    guess = UserInterface.UserInput();
+                    guess = UI.UserInput();
                     bbcc = _game.CheckGuess(guess);
-                    Console.WriteLine(bbcc);
+                    UI.Output(bbcc);
                 }
 
                 string response = Statistics.SaveResult(player, filename);
-                Console.WriteLine(response);
+                UI.Output(response);
                 Statistics.ShowTopList(filename);
 
-                playOn = UserInterface.AskToContinue();
+                playOn = UI.AskToContinue();
                 if (playOn)
                 {
-                    Console.Clear();
-                    Console.WriteLine("New round!");
+                    UI.Clear();
+                    UI.Output("New round!");
                 }
             }
         }

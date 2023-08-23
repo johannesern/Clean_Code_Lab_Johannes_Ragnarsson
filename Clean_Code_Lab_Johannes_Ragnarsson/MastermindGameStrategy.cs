@@ -7,10 +7,10 @@
         public void Initialize()
         {
             _goal = GenerateGoal();
-            Console.WriteLine("\nCorrect number at correct place generates C(orrect)" +
+            UI.Output("\nCorrect number at correct place generates C(orrect)" +
                 "\nCorrect number but wrong place generates A(lmost)");
-            Console.WriteLine("\nNew game:");
-            Console.WriteLine("For practice, number is: " + _goal);
+            UI.Output("\nNew game:");
+            UI.Output("For practice, number is: " + _goal);
         }
 
         public string CheckGuess(string guess)

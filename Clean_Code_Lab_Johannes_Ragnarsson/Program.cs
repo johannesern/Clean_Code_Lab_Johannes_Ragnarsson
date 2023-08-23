@@ -7,14 +7,14 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
         static void Main(string[] args)
         {
 
-            string playerName = UserInterface.GetPlayerName();
+            string playerName = UI.GetPlayerName();
             int totalGuesses = 1;
             var player = new PlayerData(playerName, totalGuesses);
 
             bool run = true;
             while (run)
             {
-                string response = UserInterface.GamesMenu(player);
+                string response = UI.GamesMenu(player);
                 switch (response)
                 {
                     case "1":
@@ -31,7 +31,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Wrong input, try again");
+                        UI.Output("Wrong input, try again");
                         break;
                 }
             }

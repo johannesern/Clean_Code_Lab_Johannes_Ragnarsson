@@ -15,7 +15,7 @@
             }
             catch (Exception error)
             {
-                Console.WriteLine("\nCouldn't read from file due to error:" + error + "\n");
+                UI.Output("\nCouldn't read from file due to error:" + error + "\n");
                 return new List<PlayerData>();
             }
         }
@@ -72,7 +72,7 @@
             }
             catch (Exception error)
             {
-                Console.WriteLine("\nCouldn't write to file due to error:\n" + error + "\n");
+                UI.Output("\nCouldn't write to file due to error:\n" + error + "\n");
                 return "Error creating new player";
             }
         }
