@@ -6,10 +6,9 @@
         {
             try
             {
-                List<string> allLines = FileReader(filename);
+                List<string> allLinesFromFile = FileReader(filename);
 
-                string splitter = "#&#";
-                var playerDatas = SplitStringAddData(allLines, splitter);
+                var playerDatas = SplitString(allLinesFromFile);
 
                 return playerDatas;
             }
@@ -35,25 +34,33 @@
             return results;
         }
 
-        private static List<PlayerData> SplitStringAddData(List<string> lines, string splitter)
+        private static List<PlayerData> SplitString(List<string> allLinesFromFile)
         {
             string name;
             int numberOfGames, totalGuesses;
             var results = new List<PlayerData>();
+            string splitter = "#&#";
 
-            foreach (string line in lines)
+            foreach (string line in allLinesFromFile)
             {
                 string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
-
-                name = nameAndScore[0];
-                numberOfGames = Convert.ToInt32(nameAndScore[1]);
-                totalGuesses = Convert.ToInt32(nameAndScore[2]);
-
-                PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
-
-                results.Add(playerData);
+                results = AddPlayerDataToList(results, nameAndScore);
             }
             return results;
+        }
+
+        private static List<PlayerData> AddPlayerDataToList(List<PlayerData> results, string[] nameAndScore)
+        {
+            var name = nameAndScore[0];
+            var numberOfGames = Convert.ToInt32(nameAndScore[1]);
+            var totalGuesses = Convert.ToInt32(nameAndScore[2]);
+
+            PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
+
+            results.Add(playerData);
+
+            return results;
+
         }
 
         public static string WritePlayerDataToFile(string filename, List<PlayerData> playerData)
