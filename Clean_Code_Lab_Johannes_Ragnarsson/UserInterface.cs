@@ -8,7 +8,7 @@
             return Console.ReadLine();
         }
 
-        public static string GetGuess()
+        public static string UserInput()
         {
             return Console.ReadLine();
         }
@@ -19,6 +19,15 @@
             string answer = Console.ReadLine();
             bool wantToContinue = !string.IsNullOrEmpty(answer) && answer.Trim().ToLower() == "y";
             return wantToContinue;
+        }
+
+        public static string GamesMenu(PlayerData player)
+        {
+            Console.WriteLine($"Hello {player.Name} and welcome," +
+                $"\nwhat would you like to play?" +
+                $"\n1. MooGame" +
+                $"\n2. MasterMind");
+            return UserInput();
         }
     }
 }
