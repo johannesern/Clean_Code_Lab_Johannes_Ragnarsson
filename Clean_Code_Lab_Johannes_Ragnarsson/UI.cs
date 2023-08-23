@@ -4,11 +4,22 @@
     {
         public static string GetPlayerName()
         {
-            Console.WriteLine("Enter your user name:");
-            return Console.ReadLine();
+            string username;
+            bool incorrectFormat;
+            do
+            {
+                UI.Output("Enter your user name:");
+
+                username = Input();
+                if (String.IsNullOrEmpty(username))
+                    incorrectFormat = true;
+                else
+                    incorrectFormat = false;
+            } while (incorrectFormat);
+            return username;
         }
 
-        public static string UserInput()
+        public static string Input()
         {
             return Console.ReadLine();
         }
@@ -25,20 +36,20 @@
 
         public static bool AskToContinue()
         {
-            Console.WriteLine("\nContinue? (y/n)");
-            string answer = Console.ReadLine();
+            Output("\nContinue? (y/n)");
+            string answer = Input();
             bool wantToContinue = !string.IsNullOrEmpty(answer) && answer.Trim().ToLower() == "y";
             return wantToContinue;
         }
 
         public static string GamesMenu(PlayerData player)
         {
-            Console.WriteLine($"Hello {player.Name} and Welcome," +
+            Output($"Hello {player.Name} and Welcome," +
                 $"\nWhat would you like to play?" +
                 $"\n1. MooGame" +
                 $"\n2. MasterMind" +
                 $"\n9. Exit");
-            return UserInput();
+            return Input();
         }
     }
 }
