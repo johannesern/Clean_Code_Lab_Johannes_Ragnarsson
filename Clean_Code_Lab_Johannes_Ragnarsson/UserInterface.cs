@@ -15,9 +15,10 @@
 
         public static bool AskToContinue()
         {
-            Console.WriteLine("Continue? (y/n)");
+            Console.WriteLine("\nContinue? (y/n)");
             string answer = Console.ReadLine();
-            return !string.IsNullOrEmpty(answer) && answer.Trim().ToLower() == "y";
+            bool wantToContinue = !string.IsNullOrEmpty(answer) && answer.Trim().ToLower() == "y";
+            return wantToContinue;
         }
     }
 }

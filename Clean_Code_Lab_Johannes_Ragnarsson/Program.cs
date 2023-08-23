@@ -6,7 +6,14 @@
         {
 
             string playerName = UserInterface.GetPlayerName();
-            MooGameLogic.PlayGame(playerName);
+            int totalGuesses = 1;
+            PlayerData player = new PlayerData(playerName, totalGuesses);
+
+            IGameStrategy mooGame = new MooGameStrategy();
+            GameController gameController = new GameController(mooGame);
+
+            gameController.PlayGame(player);
+            
         
         }
     }    
