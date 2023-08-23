@@ -27,7 +27,8 @@
                     Console.WriteLine(bbcc);
                 }
 
-                Statistics.SaveResult(new PlayerData(playerName, numberOfGuesses), filename);
+                string response = Statistics.SaveResult(new PlayerData(playerName, numberOfGuesses), filename);
+                Console.WriteLine(response);
                 Statistics.ShowTopList(filename);
 
                 playOn = UserInterface.AskToContinue();
