@@ -8,7 +8,7 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
         {
 
             string playerName = UI.GetPlayerName();
-            int totalGuesses = 1;
+            int totalGuesses = 0;
             var player = new PlayerData(playerName, totalGuesses);
 
             bool run = true;
