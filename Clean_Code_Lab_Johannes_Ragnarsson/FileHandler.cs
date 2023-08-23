@@ -68,11 +68,11 @@
                             $"{player.Name}#&#{player.NumberOfGames}#&#{player.TotalGuesses}");
                     }
                 }
-                return "Players updated!";
+                return "Highscores updated!";
             }
             catch (Exception error)
             {
-                Console.WriteLine("Couldn't write to file due to error:\n" + error);
+                Console.WriteLine("\nCouldn't write to file due to error:\n" + error);
                 return "Error creating new player";
             }
         }
