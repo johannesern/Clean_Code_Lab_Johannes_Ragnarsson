@@ -19,14 +19,14 @@
 
                 _game.Initialize();
 
-                string guess = UserInterface.GetGuess();
+                string guess = UserInterface.UserInput();
                 string bbcc = _game.CheckGuess(guess);
                 Console.WriteLine(bbcc);
 
                 while (bbcc != "BBBB,")
                 {
                     player.TotalGuesses++;
-                    guess = UserInterface.GetGuess();
+                    guess = UserInterface.UserInput();
                     bbcc = _game.CheckGuess(guess);
                     Console.WriteLine(bbcc);
                 }
