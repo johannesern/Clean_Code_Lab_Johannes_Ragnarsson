@@ -1,6 +1,6 @@
 ﻿namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
-    public class UserInterface
+    public class UI
     {
         public static string GetPlayerName()
         {
@@ -11,6 +11,16 @@
         public static string UserInput()
         {
             return Console.ReadLine();
+        }
+
+        public static void Output(string output)
+        {
+            Console.WriteLine(output);
+        }
+
+        public static void Clear()
+        {
+            Console.Clear();
         }
 
         public static bool AskToContinue()
