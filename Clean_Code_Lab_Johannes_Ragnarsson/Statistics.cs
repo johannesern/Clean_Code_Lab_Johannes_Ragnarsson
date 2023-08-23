@@ -6,16 +6,16 @@
         
         public static string SaveResult(PlayerData player, string filename)
         {
+            // We get all players and we try to find an existing user
             _results = FileHandler.ReadPlayerDataFromFile(filename);
             var foundPlayer = _results.Find(p => p.Name == player.Name);
 
             if (foundPlayer == null)
             {
-                _results.Add(new PlayerData(player.Name, player.TotalGuesses));
+                _results.Add(player);
             }
             else
             {
-                int indexOfUser = _results.FindIndex(user => user.Name == player.Name);
                 foundPlayer.UpdateUserData(player.TotalGuesses);
             }
             string response = FileHandler.WritePlayerDataToFile(filename, _results);
