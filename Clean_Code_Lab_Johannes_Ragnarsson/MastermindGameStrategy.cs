@@ -2,7 +2,7 @@
 {
     public class MastermindGameStrategy : IGameStrategy
     {
-        private string _goal;
+        public string _goal;
 
         public void Initialize()
         {
@@ -15,7 +15,7 @@
 
         public string CheckGuess(string guess)
         {
-            if (guess.Length < 6)
+            if (guess.Length < 7)
             {
                 int almost = 0, correct = 0;
                 guess += "      ";     // if player entered less than 6 chars
@@ -40,7 +40,7 @@
             }
             else
             {
-                return $"You enter {guess.Length} characters but only 4 is allowed, try again";
+                return $"You enter {guess.Length} characters but only 6 is allowed, try again";
             }
         }
 

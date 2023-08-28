@@ -2,7 +2,7 @@
 {
     public class MooGameStrategy : IGameStrategy
     {
-        private string _goal;
+        public string _goal;
         public void Initialize()
         {
             _goal = GenerateGoal();
