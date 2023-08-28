@@ -1,4 +1,6 @@
-﻿namespace Clean_Code_Lab_Johannes_Ragnarsson
+﻿using System.Net.Http.Headers;
+
+namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
     public class GameController
     {
@@ -20,15 +22,17 @@
                 _game.Initialize();
 
                 string userGuess = CheckUserInput();
-                string bullsAndCows = _game.CheckGuess(userGuess);
-                UI.Output(bullsAndCows);
+                string checkedCharacters = _game.CheckGuess(userGuess);
+                UI.Output(checkedCharacters);
 
-                while (bullsAndCows != "BBBB,")
+                bool charIncorrect = Evaluate(checkedCharacters);                
+                while (charIncorrect)
                 {
                     player.TotalGuesses++;
                     userGuess = CheckUserInput();
-                    bullsAndCows = _game.CheckGuess(userGuess);
-                    UI.Output(bullsAndCows);
+                    checkedCharacters = _game.CheckGuess(userGuess);
+                    UI.Output(checkedCharacters);
+                    charIncorrect = Evaluate(checkedCharacters);
                 }
 
                 string userUpdated = Statistics.SaveResult(player, filename);
@@ -44,7 +48,26 @@
             }
         }
 
-        private static string CheckUserInput()
+        private bool Evaluate(string checkedCharacters)
+        {
+            string correctMooGame = "BBBB,";
+            string correctMastermind = "CCCCCC,";
+
+            if(correctMooGame == checkedCharacters)
+            {
+                return true;
+            }
+            else if(correctMastermind == checkedCharacters)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private string CheckUserInput()
         {
             bool isEmpty;
             string userGuess;
