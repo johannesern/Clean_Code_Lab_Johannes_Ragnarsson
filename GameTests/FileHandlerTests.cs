@@ -2,6 +2,7 @@
 
 namespace GameTests
 {
+    [TestClass()]
     public class FileHandlerTests
     {
         //Classname_MethodName_ExpectedResult
