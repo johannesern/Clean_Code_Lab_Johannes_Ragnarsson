@@ -5,17 +5,15 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
     public class GameController
     {
         private IGameStrategy _game;
-        private string _gameName;
 
         public GameController(IGameStrategy game)
         {
             _game = game;
-            _gameName = GetGameName();
         }
 
         public void PlayGame(PlayerData player) 
         {
-            string filename = GetFileName(_gameName);
+            string filename = GetFileName();
 
             bool playOn = true;
             while (playOn)
@@ -93,17 +91,12 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             return userGuess;
         }
 
-        private string GetGameName()
-        {
-            var gameName = _game.GetType().Name;
-            return gameName;
-        }
-
-        private string GetFileName(string gameName)
+        private string GetFileName()
         {
             // For example, if _game is type of MooGameStrategy =>
             // then GetType.Name = MooGameStrategy
             // we remove Strategy and get our filename = MooGame.txt
+            var gameName = _game.GetType().Name;
             var indexOfS = gameName.IndexOf('S');
             var filename = gameName.Substring(0, indexOfS) + ".txt";
             return filename;
