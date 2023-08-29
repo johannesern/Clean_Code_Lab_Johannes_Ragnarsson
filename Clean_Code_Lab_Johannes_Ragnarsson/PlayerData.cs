@@ -14,6 +14,8 @@
             TotalGuesses = guesses;
         }
 
+        public PlayerData() { } //For testing class
+
         public PlayerData(string name, int numberOfGames, int totalGuesses)
         {
             this.Name = name;
