@@ -2,6 +2,8 @@
 {
     public class FileHandler
     {
+        private static string splitter = "#&#";
+
         public static List<PlayerData> ReadPlayerDataFromFile(string filename)
         {
             CreateIfNotFound(filename);
@@ -12,6 +14,11 @@
                 var playerDatas = SplitString(allLinesFromFile);
 
                 return playerDatas;
+            }
+            catch(IOException ioerror)
+            {
+                UI.Output("Couldn't read from file.\n" + ioerror);
+                return new List<PlayerData>();
             }
             catch (Exception error)
             {
@@ -25,6 +32,7 @@
             bool fileNotFound = !File.Exists(filename);
             if (fileNotFound)
             {
+                UI.Output("File not found, creating new file...\n");
                 using (FileStream fs = File.Create(filename))
                 {                 
                 }
@@ -33,44 +41,37 @@
 
         private static List<string> FileReader(string filename)
         {
-            var input = new StreamReader(filename);
             var results = new List<string>();
-
-            string line;
-
-            while ((line = input.ReadLine()) != null)
+            using (var input = new StreamReader(filename))
             {
-                results.Add(line);
+                string line;
+
+                while ((line = input.ReadLine()) != null)
+                {
+                    results.Add(line);
+                }
             }
-            input.Close();
             return results;
         }
 
         private static List<PlayerData> SplitString(List<string> allLinesFromFile)
         {
-            var results = new List<PlayerData>();
-            string splitter = "#&#";
+            var results = new List<PlayerData>();            
 
             foreach (string line in allLinesFromFile)
             {
-                string[] nameAndScore = line.Split(new string[] { splitter }, StringSplitOptions.None);
-                results = AddPlayerDataToList(results, nameAndScore);
+                string[] playerInfo = line.Split(new string[] { splitter }, StringSplitOptions.None);
+
+                var name = playerInfo[0];
+                var numberOfGames = Convert.ToInt32(playerInfo[1]);
+                var totalGuesses = Convert.ToInt32(playerInfo[2]);
+
+                PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
+
+                results.Add(playerData);
+
             }
             return results;
-        }
-
-        private static List<PlayerData> AddPlayerDataToList(List<PlayerData> results, string[] nameAndScore)
-        {
-            var name = nameAndScore[0];
-            var numberOfGames = Convert.ToInt32(nameAndScore[1]);
-            var totalGuesses = Convert.ToInt32(nameAndScore[2]);
-
-            PlayerData playerData = new PlayerData(name, numberOfGames, totalGuesses);
-
-            results.Add(playerData);
-
-            return results;
-
         }
 
         public static string WritePlayerDataToFile(string filename, List<PlayerData> playerData)
@@ -81,16 +82,18 @@
                 {
                     foreach (var player in playerData)
                     {
-                        writer.WriteLine(
-                            $"{player.Name}#&#{player.NumberOfGames}#&#{player.TotalGuesses}");
+                        writer.WriteLine(player.Name + splitter + player.NumberOfGames + splitter + player.TotalGuesses);
                     }
                 }
                 return "Highscores updated!";
             }
+            catch (IOException ioerror)
+            {                
+                return "Error writing to file.\n" + ioerror;
+            }
             catch (Exception error)
             {
-                UI.Output("\nCouldn't write to file due to error:\n" + error + "\n");
-                return "Error creating new player";
+                return "Error creating new player.\n" + error;
             }
         }
     }

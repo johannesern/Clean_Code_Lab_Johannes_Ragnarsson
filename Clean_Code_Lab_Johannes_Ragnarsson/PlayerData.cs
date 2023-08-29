@@ -21,9 +21,6 @@
             TotalGuesses = totalGuesses;
         }
 
-        //public PlayerData() { }
-
-
         public void UpdateUserData(int guesses)
         {
             TotalGuesses += guesses;
