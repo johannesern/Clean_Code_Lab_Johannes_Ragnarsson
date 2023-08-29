@@ -4,8 +4,9 @@
     {
         public static List<PlayerData> ReadPlayerDataFromFile(string filename)
         {
+            CreateIfNotFound(filename);
             try
-            {
+            {                
                 List<string> allLinesFromFile = FileReader(filename);
 
                 var playerDatas = SplitString(allLinesFromFile);
@@ -16,6 +17,17 @@
             {
                 UI.Output("\nCouldn't read from file due to error:" + error + "\n");
                 return new List<PlayerData>();
+            }
+        }
+
+        private static void CreateIfNotFound(string filename)
+        {
+            bool fileNotFound = !File.Exists(filename);
+            if (fileNotFound)
+            {
+                using (FileStream fs = File.Create(filename))
+                {                 
+                }
             }
         }
 
@@ -36,8 +48,6 @@
 
         private static List<PlayerData> SplitString(List<string> allLinesFromFile)
         {
-            string name;
-            int numberOfGames, totalGuesses;
             var results = new List<PlayerData>();
             string splitter = "#&#";
 
