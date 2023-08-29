@@ -2,12 +2,12 @@
 {
     public class MooGameStrategy : IGameStrategy
     {
-        private string _goal;
+        public string _goal;
         public void Initialize()
         {
             _goal = GenerateGoal();
-            Console.WriteLine("New game:");
-            Console.WriteLine("For practice, number is: " + _goal);
+            UI.Output("New game:");
+            UI.Output("For practice, number is: " + _goal);
         }
 
         public string CheckGuess(string guess)

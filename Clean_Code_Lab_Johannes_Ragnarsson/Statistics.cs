@@ -6,68 +6,32 @@
         
         public static string SaveResult(PlayerData player, string filename)
         {
+            // We get all players and we try to find an existing user
             _results = FileHandler.ReadPlayerDataFromFile(filename);
             var foundPlayer = _results.Find(p => p.Name == player.Name);
 
             if (foundPlayer == null)
             {
-                _results.Add(new PlayerData(player.Name, player.TotalGuesses));
+                _results.Add(player);
             }
             else
             {
-                int indexOfUser = _results.FindIndex(user => user.Name == player.Name);
                 foundPlayer.UpdateUserData(player.TotalGuesses);
             }
-            string response = FileHandler.WritePlayerDataToFile(filename, _results);
-            return response;
+            string successOrProblem = FileHandler.WritePlayerDataToFile(filename, _results);
+            return successOrProblem;
         }
 
         public static void ShowTopList(string filename)
         {
-            var results = FileHandler.ReadPlayerDataFromFile(filename);
-            results.Sort((p1, p2) => p1.AverageGuesses().CompareTo(p2.AverageGuesses()));
-            Console.WriteLine("Player   games average");
-            foreach (PlayerData player in results)
+            var playerDatas = FileHandler.ReadPlayerDataFromFile(filename);
+            playerDatas.Sort((p1, p2) => p1.AverageGuesses().CompareTo(p2.AverageGuesses()));
+            UI.Output("Player   games average");
+            foreach (PlayerData player in playerDatas)
             {
-                Console.WriteLine(string.Format(
+                UI.Output(string.Format(
                     "{0,-9}{1,5:D}{2,9:F2}", player.Name, player.NumberOfGames, player.AverageGuesses()));
             }
-        }
-    }
-
-    public class PlayerData
-    {
-        public string Name { get;  set; }
-        public int NumberOfGames { get;  set; }
-        public int TotalGuesses { get;  set; }
-
-
-        public PlayerData(string name, int guesses)
-        {
-            this.Name = name;
-            NumberOfGames = 1;
-            TotalGuesses = guesses;
-        }
-
-        public PlayerData(string name, int numberOfGames, int totalGuesses)
-        {
-            this.Name = name;
-            NumberOfGames = numberOfGames;
-            TotalGuesses = totalGuesses;
-        }
-
-        public PlayerData() { }
-
-
-        public void UpdateUserData(int guesses)
-        {
-            TotalGuesses += guesses;
-            NumberOfGames++;
-        }
-
-        public double AverageGuesses()
-        {
-            return (double)TotalGuesses / NumberOfGames;
         }
     }
 }
