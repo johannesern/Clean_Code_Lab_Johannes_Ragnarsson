@@ -59,13 +59,13 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
         private bool CheckCharsDependingOnGame(string checkedCharacters)
         {
             string correctMooGame = "BBBB,";
-            string correctMastermind = "CCCCCC,";
+            string correctOtherGame = "CCCCCC,";
 
             if(checkedCharacters == correctMooGame)
             {
                 return false;
             }
-            else if(checkedCharacters == correctMastermind)
+            else if(checkedCharacters == correctOtherGame)
             {
                 return false;
             }
@@ -95,15 +95,15 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
 
         private string GetGameName()
         {
-            // For example, if _game is type of MooGameStrategy =>
-            // then GetType.Name = MooGameStrategy
-            // we remove Strategy and get our filename = MooGame.txt
             var gameName = _game.GetType().Name;
             return gameName;
         }
 
         private string GetFileName(string gameName)
-        {            
+        {
+            // For example, if _game is type of MooGameStrategy =>
+            // then GetType.Name = MooGameStrategy
+            // we remove Strategy and get our filename = MooGame.txt
             var indexOfS = gameName.IndexOf('S');
             var filename = gameName.Substring(0, indexOfS) + ".txt";
             return filename;
