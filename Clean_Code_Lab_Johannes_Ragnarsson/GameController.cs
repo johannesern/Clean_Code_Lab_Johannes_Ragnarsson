@@ -5,15 +5,17 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
     public class GameController
     {
         private IGameStrategy _game;
+        private string _gameName;
 
         public GameController(IGameStrategy game)
         {
             _game = game;
+            _gameName = GetGameName();
         }
 
         public void PlayGame(PlayerData player) 
         {
-            string filename = GetGameName();
+            string filename = GetFileName(_gameName);
 
             bool playOn = true;
             while (playOn)
@@ -21,19 +23,15 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
 
                 _game.Initialize();
 
-                string userGuess = CheckUserInput();
-                string checkedCharacters = _game.CheckGuess(userGuess);
-                UI.Output(checkedCharacters);
-
-                bool charIncorrect = Evaluate(checkedCharacters);                
+                player.TotalGuesses++;
+                bool charIncorrect = EvaluateUserInput();                
                 while (charIncorrect)
                 {
                     player.TotalGuesses++;
-                    userGuess = CheckUserInput();
-                    checkedCharacters = _game.CheckGuess(userGuess);
-                    UI.Output(checkedCharacters);
-                    charIncorrect = Evaluate(checkedCharacters);
+                    charIncorrect = EvaluateUserInput();
                 }
+
+                UI.Output("You made it!");
 
                 string userUpdated = Statistics.SaveResult(player, filename);
                 UI.Output(userUpdated);
@@ -48,22 +46,32 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             }
         }
 
-        private bool Evaluate(string checkedCharacters)
+        private bool EvaluateUserInput()
+        {
+            string userGuess = CheckUserInput();
+            string checkedCharacters = _game.CheckGuess(userGuess);
+            UI.Output(checkedCharacters);
+
+            bool charIncorrect = CheckCharsDependingOnGame(checkedCharacters);
+            return charIncorrect;
+        }
+
+        private bool CheckCharsDependingOnGame(string checkedCharacters)
         {
             string correctMooGame = "BBBB,";
             string correctMastermind = "CCCCCC,";
 
-            if(correctMooGame == checkedCharacters)
+            if(checkedCharacters == correctMooGame)
             {
-                return true;
+                return false;
             }
-            else if(correctMastermind == checkedCharacters)
+            else if(checkedCharacters == correctMastermind)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
@@ -91,6 +99,11 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             // then GetType.Name = MooGameStrategy
             // we remove Strategy and get our filename = MooGame.txt
             var gameName = _game.GetType().Name;
+            return gameName;
+        }
+
+        private string GetFileName(string gameName)
+        {            
             var indexOfS = gameName.IndexOf('S');
             var filename = gameName.Substring(0, indexOfS) + ".txt";
             return filename;
