@@ -8,7 +8,7 @@
             bool isEmpty;
             do
             {
-                UI.Output("Enter your user name:");
+                UI.Output("Enter your username:");
 
                 username = Input();
                 if (String.IsNullOrEmpty(username))
