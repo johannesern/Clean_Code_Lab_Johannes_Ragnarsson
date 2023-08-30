@@ -4,23 +4,26 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
     public class GameController
     {
-        private IGameStrategy _game;
+        private readonly IGameStrategy _game;
+        private readonly string _goal;
 
         public GameController(IGameStrategy game)
         {
             _game = game;
+            _goal = _game.GetGoal();
         }
 
         public void PlayGame(PlayerData player) 
         {
             string filename = GetFileName();
+            
+            UI.Output("\nCorrect number at correct place generates C(orrect)" +
+                "\nCorrect number but wrong place generates A(lmost)");
+            UI.Output(_game.GetInitialMessage());
 
             bool playOn = true;
             while (playOn)
             {
-
-                _game.Initialize();
-
                 player.TotalGuesses++;
                 bool charIncorrect = EvaluateUserInput();                
                 while (charIncorrect)
@@ -54,16 +57,21 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             return charIncorrect;
         }
 
+        private string SetGoalSequence()
+        {
+            string correctCombination = "";
+            for (int i = 0; i < _goal.Length; i++)
+            {
+                correctCombination += "C";
+            }
+            return correctCombination;
+        }
+
         private bool CheckCharsDependingOnGame(string checkedCharacters)
         {
-            string correctMooGame = "BBBB,";
-            string correctOtherGame = "CCCCCC,";
+            var correctGoalSequence = SetGoalSequence();
 
-            if(checkedCharacters == correctMooGame)
-            {
-                return false;
-            }
-            else if(checkedCharacters == correctOtherGame)
+            if(checkedCharacters == correctGoalSequence)
             {
                 return false;
             }

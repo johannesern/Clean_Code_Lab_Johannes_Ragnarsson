@@ -2,8 +2,10 @@
 {
     public interface IGameStrategy
     {
-        void Initialize();
-        string GenerateGoal();
         string CheckGuess(string guess);
+
+        string GetInitialMessage();
+
+        public string GetGoal();
     }
 }

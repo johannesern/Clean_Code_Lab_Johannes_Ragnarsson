@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace Clean_Code_Lab_Johannes_Ragnarsson
+﻿namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
     class Program
     {
@@ -11,6 +9,8 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
             int totalGuesses = 0;
             var player = new PlayerData(playerName, totalGuesses);
 
+            GameLogic gameLogic = new GameLogic();
+
             bool run = true;
             while (run)
             {
@@ -18,12 +18,12 @@ namespace Clean_Code_Lab_Johannes_Ragnarsson
                 switch (response)
                 {
                     case "1":
-                        IGameStrategy mooGame = new MooGameStrategy();
+                        IGameStrategy mooGame = new MooGameStrategy(gameLogic);
                         GameController mooController = new GameController(mooGame);
                         mooController.PlayGame(player);
                         break;
                     case "2":
-                        IGameStrategy mastermindGame = new MastermindGameStrategy();
+                        IGameStrategy mastermindGame = new MastermindGameStrategy(gameLogic);
                         GameController mastermindController = new GameController(mastermindGame);
                         mastermindController.PlayGame(player);
                         break;
