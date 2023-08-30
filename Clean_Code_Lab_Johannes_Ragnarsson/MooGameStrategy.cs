@@ -11,7 +11,6 @@
         {
             _gameLogic = gameLogic;
             _goal = _gameLogic.GenerateGoal(_goalLength);
-            UI.Output("For practice, number is: " + _goal);
         }
 
         public string CheckGuess(string guess)
@@ -27,12 +26,7 @@
             }
         }
 
-        public string GetInitialMessage()
-        {
-            return "New game:" + PracticeMessage();
-        }
-
-        private string PracticeMessage()
+        public string PracticeMessage()
         {
             return "\nFor practice, number is: " + _goal;
         }

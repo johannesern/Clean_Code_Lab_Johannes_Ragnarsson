@@ -4,7 +4,7 @@
     {
         string CheckGuess(string guess);
 
-        string GetInitialMessage();
+        string PracticeMessage();
 
         public string GetGoal();
     }
