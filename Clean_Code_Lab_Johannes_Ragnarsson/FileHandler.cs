@@ -1,6 +1,6 @@
 ﻿namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
-    public class FileHandler
+    public static class FileHandler
     {
         private static string splitter = "#&#";
 
