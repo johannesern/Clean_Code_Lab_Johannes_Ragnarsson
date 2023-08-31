@@ -5,17 +5,17 @@
         public static string GetPlayerName()
         {
             string username;
-            bool incorrectFormat;
+            bool isEmpty;
             do
             {
-                UI.Output("Enter your user name:");
+                UI.Output("Enter your username:");
 
                 username = Input();
                 if (String.IsNullOrEmpty(username))
-                    incorrectFormat = true;
+                    isEmpty = true;
                 else
-                    incorrectFormat = false;
-            } while (incorrectFormat);
+                    isEmpty = false;
+            } while (isEmpty);
             return username;
         }
 

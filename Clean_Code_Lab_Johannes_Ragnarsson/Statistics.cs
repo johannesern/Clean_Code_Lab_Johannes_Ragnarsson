@@ -18,8 +18,8 @@
             {
                 foundPlayer.UpdateUserData(player.TotalGuesses);
             }
-            string successOrProblem = FileHandler.WritePlayerDataToFile(filename, _results);
-            return successOrProblem;
+            string message = FileHandler.WritePlayerDataToFile(filename, _results);
+            return message;
         }
 
         public static void ShowTopList(string filename)

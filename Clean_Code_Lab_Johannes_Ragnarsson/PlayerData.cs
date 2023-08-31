@@ -14,15 +14,14 @@
             TotalGuesses = guesses;
         }
 
+        public PlayerData() { } //For testing class
+
         public PlayerData(string name, int numberOfGames, int totalGuesses)
         {
             this.Name = name;
             NumberOfGames = numberOfGames;
             TotalGuesses = totalGuesses;
         }
-
-        //public PlayerData() { }
-
 
         public void UpdateUserData(int guesses)
         {

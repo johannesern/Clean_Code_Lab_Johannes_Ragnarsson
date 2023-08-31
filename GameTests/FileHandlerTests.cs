@@ -6,13 +6,7 @@ namespace GameTests
     public class FileHandlerTests
     {
         //Classname_MethodName_ExpectedResult
-
-        [TestMethod]
-        public void Statistics_WritePlayerDataToFile_CreateFileWriteToItFileFound()
-        {
-            //Arrange
-            string filename = "TestWriting.txt";
-            var playerDatas = new List<PlayerData>
+            public readonly List<PlayerData> playerDatas = new List<PlayerData>
             {
                 new PlayerData {
                     Name = "Johannes",
@@ -40,6 +34,16 @@ namespace GameTests
                     TotalGuesses = 48
                 }
             };
+
+        [TestMethod]
+        public void Statistics_WritePlayerDataToFile_CreateFileWriteToItFileFound()
+        {
+            //Arrange            
+            string filename = "TestWriting.txt";
+            if(File.Exists(filename))
+            {
+                File.Delete(filename);
+            }
 
             //Act
             FileHandler.WritePlayerDataToFile(filename, playerDatas);
@@ -52,35 +56,7 @@ namespace GameTests
         public void Statistics_ReadPlayerDataFromFile_FileReadIsEqualToCorrectString()
         {
             //Arrange
-            string filename = "TestWriting.txt";
-            var playerDatas = new List<PlayerData>
-            {
-                new PlayerData {
-                    Name = "Johannes",
-                    NumberOfGames = 1,
-                    TotalGuesses = 6
-                },
-                new PlayerData {
-                    Name = "Pelle",
-                    NumberOfGames = 5,
-                    TotalGuesses = 30
-                },
-                new PlayerData {
-                    Name = "Kalle",
-                    NumberOfGames = 4,
-                    TotalGuesses = 12
-                },
-                new PlayerData {
-                    Name = "Lisa",
-                    NumberOfGames = 6,
-                    TotalGuesses = 18
-                },
-                new PlayerData {
-                    Name = "Ida",
-                    NumberOfGames = 10,
-                    TotalGuesses = 48
-                }
-            };
+            string filename = "TestWriting.txt";            
 
             //Act
             var response = FileHandler.ReadPlayerDataFromFile(filename);

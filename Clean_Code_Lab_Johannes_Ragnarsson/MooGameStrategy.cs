@@ -2,65 +2,38 @@
 {
     public class MooGameStrategy : IGameStrategy
     {
-        public string _goal;
-        public void Initialize()
+        private readonly GameLogic _gameLogic;
+        private string _goal;
+        private int _maxGuessLength = 5;
+        private int _goalLength = 4;
+
+        public MooGameStrategy(GameLogic gameLogic)
         {
-            _goal = GenerateGoal();
-            UI.Output("New game:");
-            UI.Output("For practice, number is: " + _goal);
+            _gameLogic = gameLogic;
+            _goal = _gameLogic.GenerateGoal(_goalLength);
         }
 
         public string CheckGuess(string guess)
         {
-            if (guess.Length < 5)
+            if (guess.Length < _maxGuessLength)
             {
-                int cows = 0, bulls = 0;
-                guess += "    ";     // if player entered less than 4 chars
-                for (int i = 0; i < 4; i++)
-                {
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (_goal[i] == guess[j])
-                        {
-                            if (i == j)
-                            {
-                                bulls++;
-                            }
-                            else
-                            {
-                                cows++;
-                            }
-                        }
-                    }
-                }
-                return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+                guess = guess.PadRight(_goalLength);
+                return _gameLogic.CheckGuess(_goal, guess);
             }
             else
             {
-                return $"You enter {guess.Length} characters but only 4 is allowed, try again";
+                return $"You entered {guess.Length} characters but only {_goalLength} is allowed, try again";
             }
         }
 
-        public string GenerateGoal()
+        public string PracticeMessage()
         {
-            Random randomGenerator = new Random();
-            string goal = "";
+            return "\nFor practice, number is: " + _goal;
+        }
 
-            for (int i = 0; i < 4; i++)
-            {
-                int random = randomGenerator.Next(10);
-                string randomDigit = random.ToString();
-
-                while (goal.Contains(randomDigit))
-                {
-                    random = randomGenerator.Next(10);
-                    randomDigit = random.ToString();
-                }
-
-                goal += randomDigit;
-            }
-
-            return goal;
+        public string GetGoal()
+        {
+            return _goal; 
         }
     }
 }
