@@ -10,7 +10,7 @@
         {
             _game = game;
             _goal = _game.GetGoal();
-            _correctGoalSequence = SetGoalSymbolsLength();
+            _correctGoalSequence = SetCorrectGoalLength();
         }
 
         public void PlayGame(PlayerData player) 
@@ -56,7 +56,7 @@
             string checkedCharacters = _game.CheckGuess(userGuess);
             UI.Output(checkedCharacters);
 
-            bool isCharIncorrect = CheckCharsDependingOnGame(checkedCharacters);
+            bool isCharIncorrect = CheckForIncorrectChar(checkedCharacters);
             return isCharIncorrect;
         }
 
@@ -78,7 +78,7 @@
             return userGuess;
         }
 
-        private string SetGoalSymbolsLength()
+        private string SetCorrectGoalLength()
         {
             string correctCombination = "";
             for (int i = 0; i < _goal.Length; i++)
@@ -88,7 +88,7 @@
             return correctCombination + ",";
         }
 
-        private bool CheckCharsDependingOnGame(string checkedCharacters)
+        private bool CheckForIncorrectChar(string checkedCharacters)
         {
             
             if(checkedCharacters == _correctGoalSequence)
