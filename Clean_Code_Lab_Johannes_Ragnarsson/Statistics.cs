@@ -18,19 +18,24 @@
             {
                 foundPlayer.UpdateUserData(player.TotalGuesses);
             }
-            string message = FileHandler.WritePlayerDataToFile(filename, _results);
-            return message;
+            string successorErrorMessage = FileHandler.WritePlayerDataToFile(filename, _results);
+            return successorErrorMessage;
         }
 
         public static void ShowTopList(string filename)
         {
             var playerDatas = FileHandler.ReadPlayerDataFromFile(filename);
             playerDatas.Sort((p1, p2) => p1.AverageGuesses().CompareTo(p2.AverageGuesses()));
-            UI.Output("Player   games average");
+
+            const string customFormat = "{0,-9}{1,5:D}{2,9:F2}";
+
+            string scoreTableHeader = string.Format(customFormat, "Player", "Games", "Average");
+            UI.Output(scoreTableHeader);
+
             foreach (PlayerData player in playerDatas)
             {
-                UI.Output(string.Format(
-                    "{0,-9}{1,5:D}{2,9:F2}", player.Name, player.NumberOfGames, player.AverageGuesses()));
+                string playerRow = string.Format(customFormat, player.Name, player.NumberOfGames, player.AverageGuesses());
+                UI.Output(playerRow);
             }
         }
     }

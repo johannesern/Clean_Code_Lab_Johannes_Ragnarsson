@@ -1,4 +1,6 @@
-﻿namespace Clean_Code_Lab_Johannes_Ragnarsson
+﻿using System.Numerics;
+
+namespace Clean_Code_Lab_Johannes_Ragnarsson
 {
     public class UI
     {
@@ -42,14 +44,48 @@
             return wantToContinue;
         }
 
-        public static string GamesMenu(PlayerData player)
+        public static void GamesMenu(PlayerData player)
         {
-            Output($"Hello {player.Name} and Welcome," +
-                $"\nWhat would you like to play?" +
-                $"\n1. MooGame" +
-                $"\n2. MasterMind" +
-                $"\n9. Exit");
-            return Input();
+            bool run = true;
+            while (run)
+            {
+
+                Output($"Hello {player.Name} and Welcome," +
+                    $"\nWhat would you like to play?" +
+                    $"\n1. MooGame" +
+                    $"\n2. MasterMind" +
+                    $"\n9. Exit");
+
+                string response = Input();
+
+                GamesList(response, player);
+            }
+            
+        }
+
+        private static void GamesList(string response, PlayerData player)
+        {
+            GameLogic gameLogic = new GameLogic();
+
+            switch (response)
+            {
+                case "1":
+                    IGameStrategy mooGame = new MooGameStrategy(gameLogic);
+                    GameController mooController = new GameController(mooGame);
+                    mooController.PlayGame(player);
+                    break;
+                case "2":
+                    IGameStrategy mastermindGame = new MastermindGameStrategy(gameLogic);
+                    GameController mastermindController = new GameController(mastermindGame);
+                    mastermindController.PlayGame(player);
+                    break;
+                case "9":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    UI.Output("Wrong input, try again");
+                    break;
+            }
         }
     }
 }

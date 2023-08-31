@@ -26,41 +26,26 @@
 
         public string CheckGuess(string goal, string guess)
         {
-            string correctSymbols = GetRightAmountOfSymbols(goal);
-            string almostSymbols = correctSymbols.Replace("C", "A");
+            string ifCorrect = "C";
+            string ifAlmost = "A";
+            string correct = "";
+            string almost = "";
 
-            int correct = 0, almost = 0;
-
-            for (int i = 0; i < goal.Length; i++)
+            for (int i = 0; i < guess.Length; i++)
             {
-                for (int j = 0; j < guess.Length; j++)
+                if (goal[i] == guess[i])
                 {
-                    if (goal[i] == guess[j])
-                    {
-                        if (i == j)
-                        {
-                            correct++;
-                        }
-                        else
-                        {
-                            almost++;
-                        }
-                    }
+                    correct += ifCorrect;
+                }
+                else if (goal.Contains(guess[i]))
+                {
+                    almost += ifAlmost;
                 }
             }
 
-            return $"{correctSymbols.Substring(0, correct)},{almostSymbols.Substring(0, almost)}";
-        }
+            string complete = $"{correct},{almost}";
 
-        private string GetRightAmountOfSymbols(string goal)
-        {
-            string symbols = "";
-
-            for (int i = 0; i < goal.Length; i++)
-            {
-                symbols += "C";
-            }
-            return symbols;
+            return complete;
         }
     }
 }
