@@ -8,15 +8,15 @@
         {
             // We get all players and we try to find an existing user
             _results = FileHandler.ReadPlayerDataFromFile(filename);
-            var foundPlayer = _results.Find(p => p.Name == player.Name);
+            var playerExists = _results.Find(existingPlayer => existingPlayer.Name == player.Name);
 
-            if (foundPlayer == null)
+            if (playerExists == null)
             {
                 _results.Add(player);
             }
             else
             {
-                foundPlayer.UpdateUserData(player.TotalGuesses);
+                playerExists.UpdateUserData(player.TotalGuesses);
             }
             string successorErrorMessage = FileHandler.WritePlayerDataToFile(filename, _results);
             return successorErrorMessage;
