@@ -18,8 +18,8 @@
             {
                 playerExists.UpdateUserData(player.TotalGuesses);
             }
-            string successorErrorMessage = FileHandler.WritePlayerDataToFile(filename, _results);
-            return successorErrorMessage;
+            string successOrErrorMessage = FileHandler.WritePlayerDataToFile(filename, _results);
+            return successOrErrorMessage;
         }
 
         public static void ShowTopList(string filename)
